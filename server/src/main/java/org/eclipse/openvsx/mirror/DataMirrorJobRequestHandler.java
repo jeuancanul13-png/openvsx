@@ -162,6 +162,13 @@ public class DataMirrorJobRequestHandler implements JobRequestHandler<DataMirror
         try(var reader = new StringReader(body)) {
             var factory = DocumentBuilderFactory.newInstance();
             factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            // Disable DTDs and external entities to prevent XXE
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
             var builder = factory.newDocumentBuilder();
             return builder.parse(new InputSource(reader));
         }
