@@ -32,12 +32,12 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: 24.x
 
@@ -58,13 +58,13 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         persist-credentials: false
 
     - name: Get all changed webui files
       id: changed_webui_files
-      uses: tj-actions/changed-files@e0021407031f5be11a464abee9a0776171c79891 # v47.0.1
+      uses: tj-actions/changed-files@22103cc46bda19c2b464ffe86db46df6922fd323 # v47.0.5
       with:
         files: webui/**
 
@@ -79,7 +79,7 @@ jobs:
     - name: Extract metadata (tags, labels) for Docker
       if: steps.changed_webui_files.outputs.any_changed == 'true'
       id: meta
-      uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
+      uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6.0.0
       with:
         images: |
           ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.WEBUI_IMAGE }}
@@ -91,7 +91,7 @@ jobs:
 
     - name: Build and push Web UI Image
       if: steps.changed_webui_files.outputs.any_changed == 'true'
-      uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+      uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
       with:
         context: webui
         push: ${{ github.repository_owner == 'eclipse' &&
@@ -113,7 +113,7 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         persist-credentials: false
 
@@ -125,7 +125,7 @@ jobs:
 
     - name: Get all changed server files
       id: changed_server_files
-      uses: tj-actions/changed-files@e0021407031f5be11a464abee9a0776171c79891 # v47.0.1
+      uses: tj-actions/changed-files@22103cc46bda19c2b464ffe86db46df6922fd323 # v47.0.5
       with:
         files: server/**
 
@@ -146,7 +146,7 @@ jobs:
     - name: Extract metadata (tags, labels) for Docker
       if: steps.changed_server_files.outputs.any_changed == 'true'
       id: meta
-      uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
+      uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6.0.0
       with:
         images: |
           ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.SERVER_IMAGE }}
@@ -158,7 +158,7 @@ jobs:
 
     - name: Build and push Server Image
       if: steps.changed_server_files.outputs.any_changed == 'true'
-      uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+      uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
       env:
         DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_API_TOKEN }}
       with:
