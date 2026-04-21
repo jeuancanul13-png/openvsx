@@ -22,7 +22,7 @@ jobs:
       project-version: ${{ steps.context.outputs.PROJECT_VERSION }}
       npm-tag: ${{ steps.context.outputs.NPM_TAG }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -56,11 +56,11 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: '24.x'
           package-manager-cache: false
@@ -92,20 +92,20 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
       - name: "Extract release notes"
         id: extract-release-notes
-        uses: ffurrer2/extract-release-notes@202313ec7461b6b9e401996714484690ab1ae105 # v3.0.0
+        uses: ffurrer2/extract-release-notes@273da39a24fb7db106a35526c8162815faffd31d # v3.1.0
         with:
           changelog_file: "webui/CHANGELOG.md"
           release_notes_file: "webui/RELEASE_NOTES.md"
 
       - name: "Create GitHub release"
         # pin to 2.4.2 due to https://github.com/softprops/action-gh-release/issues/703
-        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
         with:
           name: "Frontend Library v${{ needs.prepare.outputs.release-version }}"
           tag_name: "${{ needs.prepare.outputs.release-tag }}"
